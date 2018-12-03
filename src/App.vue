@@ -3,17 +3,17 @@
     <nav>
       <div class="main-width">
         <h1>{{$t('title')}}</h1>
-        <div class="trace-i18n">
+        <div class="cpr-i18n">
           <span :class="{ 'focus': $i18n.locale === 'sc' }"
             @click="toggleLang('sc')">简体中文</span>
           <span :class="{ 'focus': $i18n.locale === 'en' }"
             @click="toggleLang('en')">English</span>
         </div>
-        <div v-if="route === 'query'" class="trace-back" @click="goback">{{$t('goback')}}</div>
+        <div v-if="route === 'query'" class="cpr-back" @click="goback">{{$t('goback')}}</div>
       </div>
     </nav>
     <section v-if="beforeEnter">
-      <div class="trace-intro trace-content main-width">
+      <div class="cpr-intro cpr-content main-width">
         <p>
           {{$t('intro')}}
           <br>
@@ -22,17 +22,17 @@
         <p>
           {{$t('introduction[1]')}}
         </p>
-        <div class="trace-intro-start" @click="start">{{$t('start')}}</div>
+        <div class="cpr-intro-start" @click="start">{{$t('start')}}</div>
       </div>
     </section>
     <section v-else-if="beforeLogin">
-      <div class="trace-login trace-content main-width">
+      <div class="cpr-login cpr-content main-width">
         <h2>{{$t('login')}}</h2>
         <p>{{$t('Account.select')}}</p>
-        <div class="trace-login-select" :class="{
-          'trace-login-select-open': showOptions
+        <div class="cpr-login-select" :class="{
+          'cpr-login-select-open': showOptions
         }" @click="clickSelector">
-          <ul class="trace-login-options" :style="{
+          <ul class="cpr-login-options" :style="{
             'transform': `translateY(${-selected * 80}px)`
           }">
             <li v-for="(user, index) in defaultUsers" :key="index"
@@ -42,11 +42,11 @@
             </li>
           </ul>
         </div>
-        <div class="trace-login-start" @click="login">{{$t('login')}}</div>
+        <div class="cpr-login-start" @click="login">{{$t('login')}}</div>
       </div>
     </section>
     <section v-else-if="!beforeRefresh">
-      <cargoes v-if="route === 'info'" @queryDetails="showDetails" />
+      <home v-if="route === 'info'" @queryDetails="showDetails" />
       <query v-if="route === 'query'" :cargoID='focusCargoID' />
     </section>
     <notice />
@@ -56,7 +56,7 @@
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 import Notice from '@/components/Notice'
-import Cargoes from '@/components/Cargoes'
+import Home from '@/components/Home'
 import Query from '@/components/Query'
 
 export default {
@@ -122,14 +122,14 @@ export default {
     toggleRoute (index) {
       this.route = index
     },
-    showDetails (cargo) {
+    showDetails (id) {
       this.route = 'query'
-      this.focusCargoID = cargo.id
+      this.focusCargoID = id
     }
   },
   components: {
     Notice,
-    Cargoes,
+    Home,
     Query
   }
 }
@@ -160,7 +160,7 @@ li
   min-width 480px
   box-sizing border-box
 
-.trace-blank
+.cpr-blank
   line-height 20px
 
 nav
@@ -178,7 +178,7 @@ nav
     text-align center
   .main-width
     position relative
-.trace-i18n
+.cpr-i18n
   position absolute
   top 50%
   right 0
@@ -206,7 +206,7 @@ nav
     background-color #1e64b4
     color #fff
     border-color #1e64b4
-.trace-back
+.cpr-back
   position absolute
   top 50%
   left 0
@@ -237,7 +237,7 @@ input
   margin 0
   padding 0 9px
 
-.trace-menu
+.cpr-menu
   float left
   border-radius 5px
   overflow hidden
@@ -253,7 +253,7 @@ input
   .focus
     background-color #0d85da
     color #fff
-.trace-content
+.cpr-content
   background-color #fff
   border-radius 10px
   background-color #fff
@@ -262,18 +262,18 @@ input
   margin-bottom 20px
   position relative
 
-.trace-notice
+.cpr-notice
   margin-top 4px
   font-size 12px
   color #666
 
-.trace-intro
+.cpr-intro
   padding 20px 100px
   p
     font-size 18px
     line-height 30px
     color #666
-  .trace-intro-start
+  .cpr-intro-start
     width 300px
     height 60px
     background #1E64B4
@@ -285,7 +285,7 @@ input
     cursor pointer
     margin 100px auto 80px
 
-.trace-login
+.cpr-login
   flex 0 1 800px
   margin auto
   padding 20px 150px
@@ -301,7 +301,7 @@ input
     font-size 18px
     line-height 20px
     color #666
-  .trace-login-start
+  .cpr-login-start
     width 300px
     height 60px
     background #1E64B4
@@ -313,7 +313,7 @@ input
     cursor pointer
     margin 60px auto 80px
 
-.trace-login-select
+.cpr-login-select
   cursor pointer
   height 80px
   border solid 1px #d2d2d2
@@ -331,14 +331,14 @@ input
     border-left solid 10px transparent
     border-right solid 10px transparent
     transition transform .4s, opacity .4s
-.trace-login-select-open
+.cpr-login-select-open
   overflow visible
   li:nth-child(even)
     background-color #f9f9f9
   &:after
     transform scaleY(0)
     opacity 0
-.trace-login-options
+.cpr-login-options
   border solid 1px #d2d2d2
   border-radius 10px
   overflow hidden
@@ -361,7 +361,7 @@ input
     font-size 18px
     color #333
 
-.trace-modal
+.cpr-modal
   position fixed
   top 0
   left 0
@@ -442,7 +442,7 @@ input
   .button-active
     background-color #1E64B4
 
-.trace-decimals
+.cpr-decimals
   font-size 14px
   color #666
 </style>

@@ -97,10 +97,8 @@ export default {
         }, 3000)
       })
     },
-    updateUser ({ state, dispatch }, index) {
+    updateUser ({ state }, index) {
       state.userIndex = index
-      const address = defaultUser[index].address
-      dispatch('updatePermission', address)
     },
     getWork (_, id) {
       return findOrCreateWorkInfo(id)
