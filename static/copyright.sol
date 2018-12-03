@@ -3,12 +3,14 @@ pragma solidity ^0.5.0;
 contract Copyright {
   struct Work {
     address owner;
-    string name;
+    string item;
     string intro;
     uint256 permonth;
     uint256 permanent;
   }
 
+  string public constant name = "Copyright Trading App";
+  string public constant symbol = "CTA";
   uint64 constant MAX_TIME = uint64(0) - 1;
 
   address payable public founder;
@@ -36,14 +38,14 @@ contract Copyright {
   }
   function workByID (bytes32 _id) public view returns (
     address owner,
-    string memory name,
+    string memory item,
     string memory intro,
     uint256 permonth,
     uint256 permanent
   ) {
     Work storage work = works[_id];
     owner = work.owner;
-    name = work.name;
+    item = work.item;
     intro = work.intro;
     permonth = work.permonth;
     permanent = work.permanent;
@@ -74,7 +76,7 @@ contract Copyright {
   }
 
   function registerWork (
-    string memory _name,
+    string memory _item,
     string memory _intro,
     uint256 _permonth,
     uint256 _permanent
@@ -84,7 +86,7 @@ contract Copyright {
     existing.push(workID);
     Work memory newWork = Work({
       owner: msg.sender,
-      name: _name,
+      item: _item,
       intro: _intro,
       permonth: _permonth,
       permanent: _permanent

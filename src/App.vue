@@ -14,15 +14,13 @@
     </nav>
     <section v-if="beforeEnter">
       <div class="trace-intro trace-content main-width">
-        <p>{{$t('intro')}}<br>{{$t('introduction')}}</p>
         <p>
-          {{$t('characterintro')}}
+          {{$t('intro')}}
           <br>
-          {{$t('characters[0]')}}
-          <br>
-          {{$t('characters[1]')}}
-          <br>
-          {{$t('characters[2]')}}
+          {{$t('introduction[0]')}}
+        </p>
+        <p>
+          {{$t('introduction[1]')}}
         </p>
         <div class="trace-intro-start" @click="start">{{$t('start')}}</div>
       </div>

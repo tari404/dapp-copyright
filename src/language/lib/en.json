@@ -2,23 +2,19 @@
   "title": "Tracing of Cargoes",
   "goback": "go back",
   "intro": "Introduction",
-  "introduction": "The application simulates a simplified tracing scenario of cargoes, every steps from production to sales and finally to the consumer’s hand will be stored on the chain. Users can check the details of the product through the cargo ID therefore to understand the source of the cargo and its authenticity.",
-  "characterintro": "The application consists of three roles: manufacturer, distributor, and consumer. The rights of each roles are respectively as follows:",
-  "characters": [
-    "Manufacturer: manufacturing, selling, checking",
-    "Distributor: selling and checking",
-    "Consumer: Checking the cargoes"
+  "introduction": [
+    "区块链与数字版权保护能够完美地结合，解决盗版横行的现状。在确权环节可实现及时确权；在版权交易环节不仅保护了版 权作品的价值和版权创作人的权益，还使版权价值凭借专业机构的开 发推广、衍生和应用实现了价值流通。",
+    "本应用主要包含三个功能，版权存证、版权授权和购买权限。用户新增版权认证后，可在“我拥有的版权”详情里进行授权，授权后将在“版权商城”里面展示，其他用户可在“版权商城”里购买权限。"
   ],
   "start": "Start",
   "login": "Log in",
   "Account": {
     "select": "Select an account",
     "player": [
-      "Manufacturer",
-      "Distributor 1",
-      "Distributor 2",
-      "Consumer",
-      "Others"
+      "Eagle",
+      "Doggie",
+      "Fox",
+      "Bunny"
     ],
     "current": "Current account",
     "address": "Address"

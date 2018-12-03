@@ -1,6 +1,17 @@
 [{
   "constant": true,
   "inputs": [],
+  "name": "name",
+  "outputs": [{
+    "name": "",
+    "type": "string"
+  }],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+}, {
+  "constant": true,
+  "inputs": [],
   "name": "founder",
   "outputs": [{
     "name": "",
@@ -65,7 +76,7 @@
     "name": "owner",
     "type": "address"
   }, {
-    "name": "name",
+    "name": "item",
     "type": "string"
   }, {
     "name": "intro",
@@ -123,6 +134,17 @@
   "stateMutability": "payable",
   "type": "function"
 }, {
+  "constant": true,
+  "inputs": [],
+  "name": "symbol",
+  "outputs": [{
+    "name": "",
+    "type": "string"
+  }],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+}, {
   "constant": false,
   "inputs": [],
   "name": "deposite",
@@ -133,7 +155,7 @@
 }, {
   "constant": false,
   "inputs": [{
-    "name": "_name",
+    "name": "_item",
     "type": "string"
   }, {
     "name": "_intro",
