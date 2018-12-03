@@ -1,88 +1,98 @@
 [{
   "constant": true,
   "inputs": [],
-  "name": "name",
+  "name": "founder",
   "outputs": [{
     "name": "",
+    "type": "address"
+  }],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+}, {
+  "constant": false,
+  "inputs": [{
+    "name": "_value",
+    "type": "uint256"
+  }],
+  "name": "take",
+  "outputs": [],
+  "payable": false,
+  "stateMutability": "nonpayable",
+  "type": "function"
+}, {
+  "constant": true,
+  "inputs": [{
+    "name": "_user",
+    "type": "address"
+  }],
+  "name": "worksOf",
+  "outputs": [{
+    "name": "",
+    "type": "bytes32[]"
+  }],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+}, {
+  "constant": true,
+  "inputs": [{
+    "name": "_page",
+    "type": "uint256"
+  }, {
+    "name": "_size",
+    "type": "uint256"
+  }],
+  "name": "worksPaged",
+  "outputs": [{
+    "name": "owner",
+    "type": "bytes32[]"
+  }, {
+    "name": "count",
+    "type": "uint8"
+  }],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+}, {
+  "constant": true,
+  "inputs": [{
+    "name": "_id",
+    "type": "bytes32"
+  }],
+  "name": "workByID",
+  "outputs": [{
+    "name": "owner",
+    "type": "address"
+  }, {
+    "name": "name",
     "type": "string"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "constant": true,
-  "inputs": [{
-    "name": "_cargoID",
-    "type": "uint256"
-  }],
-  "name": "transferTimesOf",
-  "outputs": [{
-    "name": "",
-    "type": "uint256"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "constant": true,
-  "inputs": [{
-    "name": "_creater",
-    "type": "address"
-  }],
-  "name": "allCreated",
-  "outputs": [{
-    "name": "cargoes",
-    "type": "uint256[]"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "constant": true,
-  "inputs": [],
-  "name": "capacity",
-  "outputs": [{
-    "name": "",
-    "type": "uint256"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "constant": true,
-  "inputs": [{
-    "name": "_owner",
-    "type": "address"
-  }],
-  "name": "allHolding",
-  "outputs": [{
-    "name": "cargoes",
-    "type": "uint256[]"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "constant": true,
-  "inputs": [{
-    "name": "_owner",
-    "type": "address"
-  }],
-  "name": "capacityOf",
-  "outputs": [{
-    "name": "",
-    "type": "uint256"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "constant": true,
-  "inputs": [],
-  "name": "symbol",
-  "outputs": [{
-    "name": "",
+  }, {
+    "name": "intro",
     "type": "string"
+  }, {
+    "name": "permonth",
+    "type": "uint256"
+  }, {
+    "name": "permanent",
+    "type": "uint256"
+  }],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+}, {
+  "constant": true,
+  "inputs": [{
+    "name": "_user",
+    "type": "address"
+  }, {
+    "name": "_id",
+    "type": "bytes32"
+  }],
+  "name": "validityOf",
+  "outputs": [{
+    "name": "",
+    "type": "uint64"
   }],
   "payable": false,
   "stateMutability": "view",
@@ -93,10 +103,10 @@
     "name": "_user",
     "type": "address"
   }],
-  "name": "permissionOf",
+  "name": "balanceOf",
   "outputs": [{
     "name": "",
-    "type": "uint8"
+    "type": "uint256"
   }],
   "payable": false,
   "stateMutability": "view",
@@ -104,75 +114,38 @@
 }, {
   "constant": false,
   "inputs": [{
-    "name": "_cargoID",
-    "type": "uint256"
-  }, {
-    "name": "_to",
-    "type": "address"
+    "name": "_workID",
+    "type": "bytes32"
   }],
-  "name": "transfer",
-  "outputs": [{
-    "name": "success",
-    "type": "bool"
-  }],
-  "payable": false,
-  "stateMutability": "nonpayable",
+  "name": "buyAuthorizationPermanent",
+  "outputs": [],
+  "payable": true,
+  "stateMutability": "payable",
   "type": "function"
 }, {
-  "constant": true,
+  "constant": false,
+  "inputs": [],
+  "name": "deposite",
+  "outputs": [],
+  "payable": true,
+  "stateMutability": "payable",
+  "type": "function"
+}, {
+  "constant": false,
   "inputs": [{
-    "name": "_cargoID",
-    "type": "uint256"
-  }],
-  "name": "cargoNameOf",
-  "outputs": [{
-    "name": "",
+    "name": "_name",
     "type": "string"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "constant": true,
-  "inputs": [{
-    "name": "_cargoID",
+  }, {
+    "name": "_intro",
+    "type": "string"
+  }, {
+    "name": "_permonth",
+    "type": "uint256"
+  }, {
+    "name": "_permanent",
     "type": "uint256"
   }],
-  "name": "tracesOf",
-  "outputs": [{
-    "name": "times",
-    "type": "uint256[]"
-  }, {
-    "name": "holders",
-    "type": "address[]"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "constant": true,
-  "inputs": [{
-    "name": "_cargoID",
-    "type": "uint256"
-  }],
-  "name": "holderOf",
-  "outputs": [{
-    "name": "",
-    "type": "address"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "constant": false,
-  "inputs": [{
-    "name": "_address",
-    "type": "address"
-  }, {
-    "name": "_state",
-    "type": "bool"
-  }],
-  "name": "setPermission",
+  "name": "registerWork",
   "outputs": [],
   "payable": false,
   "stateMutability": "nonpayable",
@@ -180,16 +153,16 @@
 }, {
   "constant": false,
   "inputs": [{
-    "name": "_cargoName",
-    "type": "string"
+    "name": "_workID",
+    "type": "bytes32"
+  }, {
+    "name": "_month",
+    "type": "uint64"
   }],
-  "name": "createNewCargo",
-  "outputs": [{
-    "name": "cargoID",
-    "type": "uint256"
-  }],
-  "payable": false,
-  "stateMutability": "nonpayable",
+  "name": "buyAuthorizationPerMonth",
+  "outputs": [],
+  "payable": true,
+  "stateMutability": "payable",
   "type": "function"
 }, {
   "inputs": [],
@@ -200,42 +173,29 @@
   "anonymous": false,
   "inputs": [{
     "indexed": true,
-    "name": "_creater",
+    "name": "owner",
     "type": "address"
   }, {
     "indexed": false,
-    "name": "_cargoID",
-    "type": "uint256"
+    "name": "id",
+    "type": "bytes32"
   }],
-  "name": "NewCargo",
+  "name": "NewWork",
   "type": "event"
 }, {
   "anonymous": false,
   "inputs": [{
     "indexed": true,
-    "name": "_cargoID",
-    "type": "uint256"
+    "name": "user",
+    "type": "address"
   }, {
     "indexed": true,
-    "name": "_from",
-    "type": "address"
+    "name": "id",
+    "type": "bytes32"
   }, {
     "indexed": false,
-    "name": "_to",
-    "type": "address"
-  }],
-  "name": "Transfer",
-  "type": "event"
-}, {
-  "anonymous": false,
-  "inputs": [{
-    "indexed": true,
-    "name": "_address",
-    "type": "address"
-  }, {
-    "indexed": false,
-    "name": "_state",
-    "type": "bool"
+    "name": "sustained",
+    "type": "uint64"
   }],
   "name": "Authorize",
   "type": "event"
