@@ -2,7 +2,7 @@ import Web3 from 'web3'
 
 import ABI from './ABI.json'
 
-const contractAddress = '0x1Def6908E68C514CB90eF16B2a8D7b099C6cE44d'
+const contractAddress = '0xC24EcEB8CDC97C1C00327AdFD3928F763702e636'
 const zeroAddress = '0x0000000000000000000000000000000000000000'
 
 const web3 = new Web3('https://rpc.truedapp.net')
@@ -22,7 +22,11 @@ class Work {
   update () {
     if (this.owner === '...' || this.owner === zeroAddress) {
       contract.methods.workByID(this.id).call().then(res => {
-        console.log(res)
+        this.owner = res.owner
+        this.name = res.item
+        this.intro = res.intro
+        this.permonth = res.permonth
+        this.permanent = res.permanent
         this.updated = new Date()
       }).catch(() => {
         this.updated = false
@@ -102,6 +106,17 @@ export default {
     },
     getWork (_, id) {
       return findOrCreateWorkInfo(id)
+    },
+    async getRegisteredWorks ({ state, dispatch }, address) {
+      address = address || defaultUser[state.userIndex].address
+      return contract.methods.worksOf(address).call().then(res => {
+        return res.map(id => {
+          return findOrCreateWorkInfo(id)
+        })
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
     },
     async registerWork ({ state, dispatch }, {
       item,

@@ -23,6 +23,9 @@ contract Copyright {
 
   mapping (bytes32 => mapping (address => uint64)) private validity;
 
+  mapping (address => bytes32[]) private boughtWorks;
+  mapping (address => mapping(bytes32 => bool)) private everBought;
+
   event NewWork(address indexed owner, bytes32 id);
   event Authorize(address indexed user, bytes32 indexed id, uint64 sustained);
 
@@ -35,6 +38,9 @@ contract Copyright {
   }
   function worksOf (address _user) public view returns (bytes32[] memory) {
     return usersWorks[_user];
+  }
+  function boughtWorksOf (address _user) public view returns (bytes32[] memory) {
+    return boughtWorks[_user];
   }
   function workByID (bytes32 _id) public view returns (
     address owner,
@@ -137,6 +143,10 @@ contract Copyright {
     } else {
       validity[_workID][_purchaser] = sustained;
       emit Authorize(_purchaser, _workID, sustained);
+    }
+    if (!everBought[_purchaser][_workID]) {
+      everBought[_purchaser][_workID] = true;
+      boughtWorks[_purchaser].push(_workID);
     }
   }
 }

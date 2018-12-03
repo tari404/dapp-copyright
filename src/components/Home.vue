@@ -13,12 +13,17 @@
       <li :class="{ 'focus': route === 'shop' }" @click="toggleRoute('shop')">版权商城</li>
     </ul>
     <div class="cpr-content no-right-top-radius">
+      <mine v-if="route === 'mine'" />
+      <shop v-if="route === 'shop'" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+
+import Mine from './Mine'
+import Shop from './Shop'
 
 export default {
   name: 'Cargoes',
@@ -40,6 +45,10 @@ export default {
     cargoDetails (id) {
       this.$emit('queryDetails', id)
     }
+  },
+  components: {
+    Mine,
+    Shop
   }
 }
 </script>
