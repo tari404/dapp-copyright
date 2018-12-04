@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>我的版权</h2>
-    <div class="cpr-button">新加版权认证</div>
+    <div class="cpr-button" @click="toggleModel(true)">新加版权认证</div>
     <div
       class="cpr-content-notice"
       v-if="rWorksState === 1">
@@ -36,6 +36,30 @@
         <p>{{item.name}}</p>
       </li>
     </ul>
+    <div v-if="model" class="cpr-modal" @wheel.prevent>
+      <div class="main">
+        <div class="close" @click="toggleModel(false)">
+          <span/>
+          <span/>
+        </div>
+        <div>
+          <h2>新加版权认证</h2>
+          <ul class="model-content">
+            <li>
+              <span>名称</span>
+              <input type="text">
+            </li>
+            <li>
+              <span>介绍</span>
+              <input type="text">
+            </li>
+          </ul>
+          <div class="button" :class="{
+            'button-active': true
+          }" @click="submit">{{createState ? $t('processing') : $t('confirm')}}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -53,7 +77,10 @@ export default {
       rWorksState: 0,
       bWorksState: 0,
       registeredWorks: [],
-      boughtWorks: []
+      boughtWorks: [],
+
+      model: false,
+      createState: false
     }
   },
   watch: {
@@ -87,6 +114,12 @@ export default {
     },
     queryDetail (id) {
       this.$emit('queryDetails', id)
+    },
+    toggleModel (state) {
+      this.model = state
+    },
+    submit () {
+      console.log('submit')
     }
   }
 }
@@ -98,4 +131,24 @@ h2
   font-weight 500
   font-size 20px
   line-height 20px
+.model-content
+  margin 60px 0
+  line-height 60px
+  font-size 18px
+  color #999
+  li
+    display flex
+    margin 30px 0
+    justify-content center
+    align-items center
+    span
+      flex 0 0 100px
+    input
+      width 400px
+      height 60px
+      font-size 18px
+      padding 10px 14px
+      border-radius 10px
+      border solid 1px #d2d2d2
+      color #666
 </style>
