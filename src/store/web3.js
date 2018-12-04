@@ -2,10 +2,10 @@ import Web3 from 'web3'
 
 import ABI from './ABI.json'
 
-const contractAddress = '0xC24EcEB8CDC97C1C00327AdFD3928F763702e636'
+const contractAddress = '0xE8e85bf86Fa949F51244258Bfb1Cc4E356c3C7B9'
 const zeroAddress = '0x0000000000000000000000000000000000000000'
 
-const web3 = new Web3('https://rpc.truedapp.net')
+const web3 = new Web3('https://api.truescan.net/rpc')
 const contract = new web3.eth.Contract(ABI, contractAddress)
 
 class Work {
@@ -67,6 +67,8 @@ export default {
 
     state: 0,
     name: '...',
+    worksCount: 0,
+    shopSize: 0,
 
     userIndex: 0,
     contractAddress
@@ -107,6 +109,48 @@ export default {
     getWork (_, id) {
       return findOrCreateWorkInfo(id)
     },
+    async updateTotalWorksCount ({ state, dispatch }) {
+      return contract.methods.totalWorksCount().call().then(res => {
+        state.worksCount = Number(res)
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
+    async updateShopSize ({ state, dispatch }) {
+      return contract.methods.shopSize().call().then(res => {
+        state.shopSize = Number(res)
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
+    async getWorksPaged ({ dispatch }, { page, size }) {
+      return contract.methods.worksPaged(page, size).call().then(res => {
+        const length = Number(res.count)
+        const result = []
+        for (let i = 0; i < length; i++) {
+          result.push(findOrCreateWorkInfo(res.works[i]))
+        }
+        return result
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
+    async getShopPaged ({ dispatch }, { page, size }) {
+      return contract.methods.shopPaged(page, size).call().then(res => {
+        const length = Number(res.count)
+        const result = []
+        for (let i = 0; i < length; i++) {
+          result.push(findOrCreateWorkInfo(res.works[i]))
+        }
+        return result
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
     async getRegisteredWorks ({ state, dispatch }, address) {
       address = address || defaultUser[state.userIndex].address
       return contract.methods.worksOf(address).call().then(res => {
@@ -118,18 +162,25 @@ export default {
         return err
       })
     },
+    async getBoughtWorks ({ state, dispatch }, address) {
+      address = address || defaultUser[state.userIndex].address
+      return contract.methods.boughtWorksOf(address).call().then(res => {
+        return res.map(id => {
+          return findOrCreateWorkInfo(id)
+        })
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
     async registerWork ({ state, dispatch }, {
       item,
-      intro,
-      permonth,
-      permanent
+      intro
     }) {
       const address = defaultUser[state.userIndex].address
       return contract.methods.registerWork(
         item,
-        intro,
-        permonth,
-        permanent
+        intro
       ).send({
         from: address,
         gasPrice: 1,

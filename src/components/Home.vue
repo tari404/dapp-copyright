@@ -13,8 +13,8 @@
       <li :class="{ 'focus': route === 'shop' }" @click="toggleRoute('shop')">版权商城</li>
     </ul>
     <div class="cpr-content no-right-top-radius">
-      <mine v-if="route === 'mine'" />
-      <shop v-if="route === 'shop'" />
+      <mine @queryDetails="queryDetails" :route="route" v-show="route === 'mine'" />
+      <shop @queryDetails="queryDetails" :route="route" v-show="route === 'shop'" />
     </div>
   </div>
 </template>
@@ -42,7 +42,7 @@ export default {
     toggleRoute (path) {
       this.route = path
     },
-    cargoDetails (id) {
+    queryDetails (id) {
       this.$emit('queryDetails', id)
     }
   },

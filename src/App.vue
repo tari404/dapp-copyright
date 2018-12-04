@@ -136,32 +136,7 @@ export default {
 </script>
 
 <style lang="stylus">
-body
-  margin 0
-  background-color #f0f4f8
-  font-family Avenir,Helvetica,Arial,sans-serif
-  -webkit-text-size-adjust none
-body::-webkit-scrollbar
-  display none
-  width 0
-  height 0
-  opacity 0
-a
-  color inherit
-ul
-  margin 0
-  padding 0
-li
-  list-style none
-
-.main-width
-  margin auto
-  flex 0 1 1200px
-  min-width 480px
-  box-sizing border-box
-
-.cpr-blank
-  line-height 20px
+@import 'assets/style.styl'
 
 nav
   height 90px
@@ -216,26 +191,6 @@ nav
   transition color .3s
   &:hover
     color #1e64b4
-section
-  margin 20px 10px
-  display flex
-
-label
-  display block
-  line-height 40px
-  width 90px
-  height 40px
-input
-  font-family inherit
-  font-size inherit
-  box-sizing border-box
-  border-radius 3px
-  border 1px solid #ddd
-  font-size 16px
-  outline none
-  height 40px
-  margin 0
-  padding 0 9px
 
 .cpr-menu
   float left
@@ -253,19 +208,6 @@ input
   .focus
     background-color #0d85da
     color #fff
-.cpr-content
-  background-color #fff
-  border-radius 10px
-  background-color #fff
-  padding 40px 30px
-  box-shadow 0 2px 4px #0001
-  margin-bottom 20px
-  position relative
-
-.cpr-notice
-  margin-top 4px
-  font-size 12px
-  color #666
 
 .cpr-intro
   padding 20px 100px
@@ -360,89 +302,4 @@ input
   span
     font-size 18px
     color #333
-
-.cpr-modal
-  position fixed
-  top 0
-  left 0
-  background-color #0004
-  width 100%
-  height 100%
-  display flex
-  align-items center
-  z-index 10
-  .main
-    margin auto
-    padding 40px
-    box-sizing border-box
-    width 700px
-    background-color #fff
-    border-radius 10px
-    position relative
-  .close
-    position absolute
-    top -40px
-    right 0
-    width 30px
-    height 30px
-    box-sizing border-box
-    border-radius 15px
-    border solid 2px #fff
-    cursor pointer
-    span
-      position absolute
-      top 12px
-      left 3px
-      display block
-      height 2px
-      width 20px
-      background-color #fff
-      &:first-child
-        transform rotate(45deg)
-      &:last-child
-        transform rotate(-45deg)
-  h2
-    font-weight 400
-    text-align center
-    font-size 20px
-    color #333
-    margin-bottom 40px
-  input
-    display block
-    width 500px
-    height 60px
-    border 1px solid #d2d2d2
-    border-radius 10px
-    font-size 18px
-    margin auto
-    padding 10px 20px
-    position relative
-    background transparent
-    z-index 1
-  .notice
-    position absolute
-    left 121px
-    top 100px
-    line-height 62px
-    color #999
-    font-size 18px
-    z-index 0
-  .button
-    width 300px
-    height 60px
-    background #bfbfbf
-    border-radius 10px
-    line-height 60px
-    text-align center
-    color #fff
-    font-size 18px
-    cursor pointer
-    margin 60px auto 20px
-    transition background-color 0.4s
-  .button-active
-    background-color #1E64B4
-
-.cpr-decimals
-  font-size 14px
-  color #666
 </style>
