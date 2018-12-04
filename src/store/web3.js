@@ -14,6 +14,7 @@ class Work {
     this.owner = '...'
     this.name = '...'
     this.intro = ''
+    this.onSale = false
     this.permonth = '...'
     this.permanent = '...'
     this.updated = false
@@ -25,6 +26,7 @@ class Work {
         this.owner = res.owner
         this.name = res.item
         this.intro = res.intro
+        this.onSale = res.onSale
         this.permonth = res.permonth
         this.permanent = res.permanent
         this.updated = new Date()

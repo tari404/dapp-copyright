@@ -47,7 +47,7 @@
     </section>
     <section v-else-if="!beforeRefresh">
       <home v-if="route === 'info'" @queryDetails="showDetails" />
-      <query v-if="route === 'query'" :cargoID='focusCargoID' />
+      <query v-if="route === 'query'" :workID='focusWorkID' />
     </section>
     <notice />
   </div>
@@ -72,7 +72,7 @@ export default {
       selected: 0,
 
       route: 'info',
-      focusCargoID: 0
+      focusWorkID: 0
     }
   },
   computed: {
@@ -124,7 +124,7 @@ export default {
     },
     showDetails (id) {
       this.route = 'query'
-      this.focusCargoID = id
+      this.focusWorkID = id
     }
   },
   components: {

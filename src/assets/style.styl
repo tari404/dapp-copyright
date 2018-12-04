@@ -8,6 +8,14 @@ body::-webkit-scrollbar
   width 0
   height 0
   opacity 0
+    
+input[type='number']
+  -moz-appearance textfield
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+  -webkit-appearance none
+  margin 0
+
 a
   color inherit
 ul
@@ -101,26 +109,6 @@ input
     font-size 20px
     color #333
     margin-bottom 40px
-  input
-    display block
-    width 500px
-    height 60px
-    border 1px solid #d2d2d2
-    border-radius 10px
-    font-size 18px
-    margin auto
-    padding 10px 20px
-    position relative
-    background transparent
-    z-index 1
-  .notice
-    position absolute
-    left 121px
-    top 100px
-    line-height 62px
-    color #999
-    font-size 18px
-    z-index 0
   .button
     width 300px
     height 60px
@@ -189,3 +177,22 @@ input
   color #666
   &:last-child
     margin-bottom 0
+
+.cpr-button
+  position absolute
+  top 30px
+  right 30px
+  min-width 150px
+  padding 0 20px
+  height 40px
+  box-sizing border-box
+  border-radius 20px
+  color #fff
+  background-color #1E64B4
+  opacity .8
+  line-height 40px
+  text-align center
+  cursor pointer
+  transition opacity .4s
+  &:hover
+    opacity 1

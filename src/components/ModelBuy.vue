@@ -1,0 +1,139 @@
+<template>
+  <div>
+    <h2>购买版权</h2>
+    <div class="content select-time">
+      <span class="key">权限时间</span>
+      <ul>
+        <li>
+          <span class="radio" :class="{ 'radio-focus': isMonthly }" @click="toggleMode(true)"></span>
+          <div class="number-input">
+            <span @click="subOneMonth">-</span>
+            <input type="number" @keydown="filterInput($event)" v-model="month">
+            <span @click="addOneMonth">+</span>
+          </div>
+          <span>月</span>
+        </li>
+        <li>
+          <span class="radio" :class="{ 'radio-focus': !isMonthly }" @click="toggleMode(false)"></span>
+          <span>永久</span>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <span class="key">价格</span>
+      <span>{{price}} wei</span>
+    </div>
+    <div class="button" :class="{
+      'button-active': true
+    }" @click="buy">{{buyState ? $t('processing') : $t('confirm')}}</div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ModelBuy',
+  props: ['work'],
+  data () {
+    return {
+      buyState: false,
+      isMonthly: true,
+      month: '1'
+    }
+  },
+  computed: {
+    price () {
+      if (this.isMonthly) {
+        return this.work.permonth * Number(this.month)
+      } else {
+        return this.work.permanent
+      }
+    }
+  },
+  methods: {
+    filterInput (e) {
+      const valid = !isNaN(Number(e.key))
+        || e.key === 'Backspace'
+        || e.key === 'Enter'
+        || /Arrow/.test(e.key)
+        && !(e.key === 'ArrowDown' && Number(this.month) <= 1)
+      if (!valid) {
+        e.preventDefault()
+      }
+    },
+    toggleMode (isMonthly) {
+      this.isMonthly = isMonthly
+    },
+    subOneMonth () {
+      if (Number(this.month) > 1) {
+        this.month = (Number(this.month) - 1).toString()
+      }
+    },
+    addOneMonth () {
+      this.month = (Number(this.month) + 1).toString()
+    },
+    buy () {
+      console.log('buy')
+    }
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+.content
+  display flex
+  height 40px
+  line-height 42px
+  margin 30px 0
+  font-size 18px
+  color #666
+  .key
+    flex 0 0 100px
+.select-time
+  ul
+    display flex
+  li
+    display flex
+    margin-right 40px
+  .radio
+    display block
+    margin 11px 5px
+    width 17px
+    height 17px
+    box-sizing border-box
+    border-radius 50%
+    border solid 2px #a0a0a0
+    cursor pointer
+  .radio-focus
+    border solid 2px #0071bc
+    position relative
+    &:before
+      content ''
+      top 3px
+      left 3px
+      position absolute
+      width 7px
+      height 7px
+      border-radius 50%
+      background-color #0071bc
+.number-input
+  border solid 1px #d2d2d2
+  border-radius 10px
+  display flex
+  margin 0 6px
+  overflow hidden
+  span
+    width 40px
+    line-height 38px
+    text-align center
+    box-sizing border-box
+    cursor pointer
+    user-select none
+    &:first-child
+      border-right solid 1px #d2d2d2
+    &:last-child
+      border-left solid 1px #d2d2d2
+  input
+    width 60px
+    border none
+    text-align center
+</style>

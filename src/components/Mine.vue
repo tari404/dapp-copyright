@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>我的版权</h2>
-    <div class="new-work">新加版权认证</div>
+    <div class="cpr-button">新加版权认证</div>
     <div
       class="cpr-content-notice"
       v-if="rWorksState === 1">
@@ -98,21 +98,4 @@ h2
   font-weight 500
   font-size 20px
   line-height 20px
-.new-work
-  position absolute
-  top 30px
-  right 30px
-  width 150px
-  height 40px
-  box-sizing border-box
-  border-radius 20px
-  color #fff
-  background-color #1E64B4
-  opacity .8
-  line-height 40px
-  text-align center
-  cursor pointer
-  transition opacity .4s
-  &:hover
-    opacity 1
 </style>

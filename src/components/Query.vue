@@ -1,48 +1,62 @@
 <template>
-  <div class="main-width trace-content">
+  <div class="main-width cpr-content">
     <h2>{{$t('Query.title')}}</h2>
-    <div class="trace-transfer" v-if="permissions[address] > 0 && address === holder" @click="startTransferCargo">{{$t('transcargo')}}</div>
-    <div class="trace-id">ID - {{cargoID}}</div>
-    <div v-if="loaded === 1">{{$t('loading')}}</div>
-    <div v-else-if="notExist && loaded" class="trace-no-cargo">{{$t('Query.nocargoes')}}</div>
-    <div v-else-if="cargo && loaded" class="trace-cargo-details">
-      <div class="name">
-        <img :src="cargoImg">
-        <span>{{cargo.name}}</span>
-        <div><span>{{$t('Query.createtime')}}</span>{{cargo.traces[0].time}}</div>
+    <div v-if="work && work.owner === address" class="cpr-button" @click="toggleModel('rule')">创建/更新授权规则</div>
+    <div v-else-if="work && work.onSale" class="cpr-button" @click="toggleModel('buy')">购买授权</div>
+    <div v-if="loaded === 1" class="cpr-content-notice">{{$t('loading')}}</div>
+    <div v-else-if="notExist && loaded" class="cpr-content-notice">{{$t('Query.nocargoes')}}</div>
+    <div v-else-if="work && loaded">
+      <div class="cpr-work-name">
+        <img :src="defaultImg">
+        <span>{{work.name}}</span>
+        <!-- <div>{{$t('Query.createtime')}}</div> -->
       </div>
-      <div>
+      <div class="cpr-work-detail">
         <p>
-          <span class="key">{{$t('Query.creater')}}</span>
-          <span class="address">{{cargo.traces[0].holder}}</span>
+          <span class="key">{{$t('Query.id')}}</span>
+          <span class="address">{{work.id}}</span>
         </p>
         <p>
-          <span class="key">{{$t('Query.holder')}}</span>
-          <span class="address">{{holder}}</span>
+          <span class="key">{{$t('Query.owner')}}</span>
+          <span class="address">{{work.owner}}</span>
         </p>
-        <p><span class="key">{{$t('Query.transcount')}}</span>{{tracesLength}}</p>
+        <p>
+          <span class="key">{{$t('Query.intro')}}</span>
+          <span class="address">{{work.intro}}</span>
+        </p>
       </div>
-      <ul class="trace-cargo-traces">
-        <li v-for="(node, index) in cargo.traces" :key="index" :time="node.time">
-          <user-head :address="node.holder" />
-          <span>{{node.holder}}</span>
-        </li>
-      </ul>
+      <hr>
+      <div v-if="work.onSale" class="cpr-work-price">
+        <p>允许购买授权</p>
+        <div>
+            <span class="key">授权模式</span>
+            <span class="key">每月</span>
+            <span class="key">永久</span>
+            <span>授权价格</span>
+            <span>{{work.permonth}} wei</span>
+            <span>{{work.permanent}} wei</span>
+        </div>
+      </div>
+      <div v-else class="cpr-work-price">
+        <p>作者暂时不允许购买其授权</p>
+      </div>
     </div>
-    <div v-if="showModalBox" class="trace-modal">
+    <div v-if="model === 'rule'" class="cpr-modal" @wheel.prevent>
       <div class="main">
-        <div class="close" @click="closeModal">
+        <div class="close" @click="toggleModel(false)">
           <span/>
           <span/>
         </div>
-        <div class="trace-main-info">
-          <h2>{{$t('transcargo')}}</h2>
-          <input type="text" v-model="inputTarget">
-          <div class="notice" v-if="!inputTarget">{{$t('Query.input')}}</div>
-          <div class="button" :class="{
-            'button-active': utils.isAddress(inputTarget) && !transferState
-          }" @click="transferCargo">{{transferState ? $t('processing') : $t('Query.confirm')}}</div>
+        <model-rule :work="work" />
+      </div>
+    </div>
+    <div v-if="model === 'buy'" class="cpr-modal" @wheel.prevent>
+      <div class="main">
+        <div class="close" @click="toggleModel(false)">
+          <span/>
+          <span/>
         </div>
+        <model-buy :work="work" />
       </div>
     </div>
   </div>
@@ -50,66 +64,47 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-import UserHead from './UserHead'
-
-import cargoImg from '@/assets/cargo.png'
+import ModelBuy from './ModelBuy'
+import ModelRule from './ModelRule'
+import defaultImg from '@/assets/work.jpg'
 
 const zeroAddress = '0x0000000000000000000000000000000000000000'
 
 export default {
   name: 'Query',
-  props: ['cargoID'],
+  props: ['workID'],
   data () {
     return {
-      cargoImg,
-      cargo: null,
+      defaultImg,
+      work: null,
 
       loaded: 0,
-      inputTarget: '',
-      showModalBox: false,
-      transferState: false
+      model: false
     }
   },
   watch: {
-    cargoID (id) {
-      this.cargo = null
+    workID (id) {
+      this.work = null
       this.queryCargo(id)
     }
   },
   computed: {
     ...mapState({
-      permissions: state => state.web3.permissions,
       utils: state => state.web3.utils
     }),
     ...mapGetters({
       address: 'web3/address'
     }),
-    tracesLength () {
-      if (this.cargo) {
-        return this.cargo.traces.length - 1
-      } else {
-        return 0
-      }
-    },
-    holder () {
-      if (this.cargo) {
-        const traces = this.cargo.traces
-        if (traces.length) {
-          return traces[traces.length - 1].holder
-        }
-      }
-      return zeroAddress
-    },
     notExist () {
-      if (this.cargo) {
-        return this.cargo.traces[0].holder === zeroAddress
+      if (this.work) {
+        return this.work.owner === zeroAddress
       } else {
         return false
       }
     }
   },
-  mounted () {
-    this.queryCargo(this.cargoID)
+  created () {
+    this.queryWork()
     setTimeout(() => {
       this.loaded = this.loaded || 1
     }, 300)
@@ -117,24 +112,21 @@ export default {
   methods: {
     ...mapActions({
       notice: 'notice',
-      getCargo: 'web3/getCargo',
+      getWork: 'web3/getWork',
       transfer: 'web3/transfer'
     }),
-    queryCargo (inputID) {
-      if (!inputID || /\D/.test(inputID)) {
+    queryWork () {
+      const id = this.workID
+      if (!id || !/^0x[0-9A-Fa-f]{64}$/.test(id)) {
         return
       }
-      this.inputID = inputID
-      this.getCargo(inputID).then(res => {
+      this.getWork(id).then(res => {
         this.loaded = 2
-        this.cargo = res
+        this.work = res
       })
     },
-    startTransferCargo () {
-      this.showModalBox = true
-    },
-    closeModal () {
-      this.showModalBox = false
+    toggleModel (value) {
+      this.model = value
     },
     transferCargo () {
       const target = this.inputTarget
@@ -161,48 +153,38 @@ export default {
     }
   },
   components: {
-    UserHead
+    ModelBuy,
+    ModelRule
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.trace-content
+.cpr-content
   margin-bottom 100px
 h2
-  margin 0 0 40px
+  margin 0
   font-weight 500
   font-size 20px
   line-height 20px
-.trace-id
-  margin 30px -30px
-  padding 0 30px
-  line-height 30px
-  height 28px
-  background-color #fafafa
-.trace-no-cargo
-  text-align center
-  color #bbb
-  background-color #f0f0f0
-  border-radius 10px
-  line-height 50px
-  padding 10px
-.trace-cargo-details
-  .name
-    margin 30px 0
-    display flex
-    align-items center
-    color #666
-    img
-      width 40px
-      height 40px
-      border-radius 50%
-    >span
-      margin-left 20px
-      font-size 18px
-      flex 1
-    div>span
-      margin-right 10px
+hr
+  border-top dashed 1px #1864b8
+  border-bottom none
+.cpr-work-name
+  margin 30px 0
+  display flex
+  align-items top
+  color #666
+  img
+    width 220px
+    height 100px
+    object-fit cover
+    object-position center top
+  span
+    margin 10px 20px
+    font-size 18px
+    flex 1
+.cpr-work-detail
   p
     color #333
     font-size 18px
@@ -214,72 +196,25 @@ h2
   .address
     overflow hidden
     text-overflow ellipsis
-.trace-cargo-traces
-  background-color #f2f5fa
-  padding 30px
-  border-radius 10px
-  display flex
-  flex-direction column-reverse
-  li
-    width 700px
-    height 60px
-    box-sizing border-box
+.cpr-work-price
+  div
+    display grid
+    grid-gap 2px 
+    grid-template-columns 0.5fr 1fr 1fr
+    border solid 1px #1b64b6
     border-radius 10px
-    border solid 1px #bfbfbf
-    margin 40px auto 0
-    text-align center
-    font-size 18px
-    padding 10px 20px
-    background-color #fff
-    position relative
-    display flex
-    align-items center
-    justify-content space-between
-    &:before
-      content attr(time)
-      position absolute
-      font-size 14px
-      line-height 20px
-      color #999
-      bottom -32px
-      left 50%
-      transform translateX(14px)
-    &:after
-      content ''
-      position absolute
-      width 20px
-      height 20px
-      top -31px
-      left 50%
-      background-size contain
-      background-position center
-      background-repeat no-repeat
-      background-image url(../assets/arrow_down.svg)
-      transform translateX(-50%) rotate(180deg)
+    overflow hidden
+    margin 10px 0
+    line-height 30px
     span
-      margin 0 40px 0 20px
-  li:last-child
-    margin-top 0
-    &:after
-      content none
-  li:first-child
-    &:before
-      content none
-.trace-transfer
-  position absolute
-  top 30px
-  right 30px
-  width 150px
-  height 40px
-  box-sizing border-box
-  border-radius 20px
-  color #fff
-  background-color #1E64B4
-  opacity .8
-  line-height 40px
-  text-align center
-  cursor pointer
-  transition opacity .4s
-  &:hover
-    opacity 1
+      padding 8px
+      text-align center
+    .key
+      background-color #1b64b6
+      color #fff
+  p
+    color #333
+    font-size 18px
+    line-height 18px
+    margin 30px 0 20px
 </style>
