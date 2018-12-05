@@ -1,9 +1,9 @@
 import Web3 from 'web3'
+import BN from 'bn.js'
 
 import ABI from './ABI.json'
 
 const contractAddress = '0xE8e85bf86Fa949F51244258Bfb1Cc4E356c3C7B9'
-const zeroAddress = '0x0000000000000000000000000000000000000000'
 
 const web3 = new Web3('https://api.truescan.net/rpc')
 const contract = new web3.eth.Contract(ABI, contractAddress)
@@ -21,19 +21,17 @@ class Work {
     this.update()
   }
   update () {
-    if (this.owner === '...' || this.owner === zeroAddress) {
-      contract.methods.workByID(this.id).call().then(res => {
-        this.owner = res.owner
-        this.name = res.item
-        this.intro = res.intro
-        this.onSale = res.onSale
-        this.permonth = res.permonth
-        this.permanent = res.permanent
-        this.updated = new Date()
-      }).catch(() => {
-        this.updated = false
-      })
-    }
+    contract.methods.workByID(this.id).call().then(res => {
+      this.owner = res.owner
+      this.name = res.item
+      this.intro = res.intro
+      this.onSale = res.onSale
+      this.permonth = res.permonth
+      this.permanent = res.permanent
+      this.updated = new Date()
+    }).catch(() => {
+      this.updated = false
+    })
     return this
   }
 }
@@ -175,18 +173,83 @@ export default {
         return err
       })
     },
+    async getValidity ({ state, dispatch }, { address, id }) {
+      address = defaultUser[state.userIndex].address
+      return contract.methods.validityOf(address, id).call().then(res => {
+        return res
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
     async registerWork ({ state, dispatch }, {
-      item,
+      name,
       intro
     }) {
       const address = defaultUser[state.userIndex].address
       return contract.methods.registerWork(
-        item,
+        name,
         intro
       ).send({
         from: address,
         gasPrice: 1,
         gas: 3000000
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
+    async saleAuthorization ({ state, dispatch }, {
+      id,
+      permonth,
+      permanent
+    }) {
+      const address = defaultUser[state.userIndex].address
+      return contract.methods.onShelves(
+        id,
+        permonth,
+        permanent
+      ).send({
+        from: address,
+        gasPrice: 1,
+        gas: 3000000
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
+    async buyAuthorizationPerMonth ({ state, dispatch }, {
+      id,
+      month,
+      permonth
+    }) {
+      const value = new BN(permonth).muln(month).toString()
+      const address = defaultUser[state.userIndex].address
+      return contract.methods.buyAuthorizationPerMonth(
+        id,
+        month
+      ).send({
+        from: address,
+        gasPrice: 1,
+        gas: 3000000,
+        value
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
+    async buyAuthorizationPermanent ({ state, dispatch }, {
+      id,
+      permanent
+    }) {
+      const address = defaultUser[state.userIndex].address
+      return contract.methods.buyAuthorizationPermanent(
+        id
+      ).send({
+        from: address,
+        gasPrice: 1,
+        gas: 3000000,
+        value: permanent
       }).catch(err => {
         dispatch('checkNetwork')
         return err

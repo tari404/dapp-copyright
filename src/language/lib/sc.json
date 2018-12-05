@@ -46,11 +46,14 @@
     "confirm": "确定创建"
   },
   "Notice": {
-    "cargo": "商品：",
-    "toaccount": "已转移至账户：",
+    "work": "作品：",
+    "registered": " 已成功登记",
+    "onshelves": " 已设置授权价格",
+    "buy": "已购买作品授权",
+    "insufficient": "账户余额不足",
     "success": "操作成功",
-    "unknow": "未能成功转移商品 输入参数可能有错误或无权操作",
-    "neterror": "未能成功转移商品 可能是由于网络等原因导致的"
+    "unknow": "未能成功登记作品 输入参数可能有错误",
+    "neterror": "未能成功登记作品 可能是由于网络等原因导致的"
   },
   "Createnotice": {
     "success": "商品记录创建成功，名称",

@@ -36,7 +36,7 @@
         <p>{{item.name}}</p>
       </li>
     </ul>
-    <div v-if="model" class="cpr-modal" @wheel.prevent>
+    <div v-if="model" class="cpr-modal">
       <div class="main">
         <div class="close" @click="toggleModel(false)">
           <span/>
@@ -47,15 +47,15 @@
           <ul class="model-content">
             <li>
               <span>名称</span>
-              <input type="text">
+              <input type="text" v-model="inputName">
             </li>
             <li>
               <span>介绍</span>
-              <input type="text">
+              <textarea v-model="inputIntro" />
             </li>
           </ul>
           <div class="button" :class="{
-            'button-active': true
+            'button-active': inputName && inputIntro && !createState
           }" @click="submit">{{createState ? $t('processing') : $t('confirm')}}</div>
         </div>
       </div>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import defaultImg from '@/assets/work.jpg'
 
 export default {
@@ -80,6 +80,8 @@ export default {
       boughtWorks: [],
 
       model: false,
+      inputName: '',
+      inputIntro: '',
       createState: false
     }
   },
@@ -98,28 +100,57 @@ export default {
     }, 300)
   },
   methods: {
-    ...mapActions({
-      'getRegisteredWorks': 'web3/getRegisteredWorks',
-      'getBoughtWorks': 'web3/getBoughtWorks'
+    ...mapMutations({
+      'setPageLock': 'setPageLock'
     }),
-    update () {
+    ...mapActions({
+      'notice': 'notice',
+      'getRegisteredWorks': 'web3/getRegisteredWorks',
+      'getBoughtWorks': 'web3/getBoughtWorks',
+      'registerWork': 'web3/registerWork'
+    }),
+    update (onlyUpdateRegistered) {
       this.getRegisteredWorks().then(res => {
         this.registeredWorks = res
         this.rWorksState = 2
       })
-      this.getBoughtWorks().then(res => {
-        this.boughtWorks = res
-        this.bWorksState = 2
-      })
+      if (!onlyUpdateRegistered) {
+        this.getBoughtWorks().then(res => {
+          this.boughtWorks = res
+          this.bWorksState = 2
+        })
+      }
     },
     queryDetail (id) {
       this.$emit('queryDetails', id)
     },
     toggleModel (state) {
       this.model = state
+      document.body.style.overflow = state ? 'hidden' : ''
     },
     submit () {
-      console.log('submit')
+      if (!this.inputName || !this.inputIntro) {
+        return
+      }
+      this.createState = true
+      const name = this.inputName
+      this.registerWork({
+        name,
+        intro: this.inputIntro
+      }).then(res => {
+        this.createState = false
+        if (res.events) {
+          this.update(true)
+          this.inputName = ''
+          this.inputIntro = ''
+          this.toggleModel(false)
+          this.notice(['log', this.$t('Notice.work') + name + this.$t('Notice.registered'), 10000])
+        } else if (/reverted by the EVM/.test(res.message)) {
+          this.notice(['error', this.$t('Notice.unknow'), 10000])
+        } else {
+          this.notice(['error', this.$t('Notice.neterror'), 10000])
+        }
+      })
     }
   }
 }
@@ -143,12 +174,22 @@ h2
     align-items center
     span
       flex 0 0 100px
-    input
-      width 400px
-      height 60px
-      font-size 18px
-      padding 10px 14px
-      border-radius 10px
-      border solid 1px #d2d2d2
-      color #666
+  input
+    width 400px
+    height 60px
+    padding 9px 14px
+    border-radius 10px
+    border solid 1px #d2d2d2
+    color #666
+  textarea
+    width 400px
+    height 60px
+    line-height 30px
+    min-height 60px
+    max-height 240px
+    padding 14px
+    border-radius 10px
+    border solid 1px #d2d2d2
+    color #666
+    resize vertical
 </style>

@@ -18,12 +18,14 @@
     </ul>
     <p class="notice">版权授权后，您的版权将会在版权商城展示出售</p>
     <div class="button" :class="{
-      'button-active': true
+      'button-active': Number(permonth) && Number(permanent) && !state
     }" @click="updateRule">{{state ? $t('processing') : $t('confirm')}}</div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'ModelRule',
   props: ['work'],
@@ -39,6 +41,10 @@ export default {
     this.permanent = this.work.permanent.toString()
   },
   methods: {
+    ...mapActions({
+      'notice': 'notice',
+      'saleAuthorization': 'web3/saleAuthorization'
+    }),
     filterInput (e) {
       const valid = !isNaN(Number(e.key))
         || e.key === 'Backspace'
@@ -50,7 +56,27 @@ export default {
       }
     },
     updateRule () {
-      console.log('rule')
+      const permonth = Number(this.permonth)
+      const permanent = Number(this.permanent)
+      if (!permonth || !permanent || this.state) {
+        return
+      }
+      this.state = true
+      this.saleAuthorization({
+        id: this.work.id,
+        permonth,
+        permanent
+      }).then(res => {
+        this.state = false
+        if (res.events) {
+          this.$emit('needupdate')
+          this.notice(['log', this.$t('Notice.work') + this.work.name + this.$t('Notice.onshelves'), 10000])
+        } else if (/reverted by the EVM/.test(res.message)) {
+          this.notice(['error', this.$t('Notice.unknow'), 10000])
+        } else {
+          this.notice(['error', this.$t('Notice.neterror'), 10000])
+        }
+      })
     }
   }
 }

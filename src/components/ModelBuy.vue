@@ -24,12 +24,14 @@
       <span>{{price}} wei</span>
     </div>
     <div class="button" :class="{
-      'button-active': true
+      'button-active': (!isMonthly || Number(month)) && !buyState
     }" @click="buy">{{buyState ? $t('processing') : $t('confirm')}}</div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'ModelBuy',
   props: ['work'],
@@ -50,6 +52,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      'notice': 'notice',
+      'buyAuthorizationPerMonth': 'web3/buyAuthorizationPerMonth',
+      'buyAuthorizationPermanent': 'web3/buyAuthorizationPermanent'
+    }),
     filterInput (e) {
       const valid = !isNaN(Number(e.key))
         || e.key === 'Backspace'
@@ -72,7 +79,33 @@ export default {
       this.month = (Number(this.month) + 1).toString()
     },
     buy () {
-      console.log('buy')
+      if ((this.isMonthly && !Number(this.month)) || this.buyState) {
+        return
+      }
+      this.buyState = true
+      const buyPromise = this.isMonthly
+        ? this.buyAuthorizationPerMonth({
+          id: this.work.id,
+          month: Number(this.month),
+          permonth: this.work.permonth
+        })
+        : this.buyAuthorizationPermanent({
+          id: this.work.id,
+          permanent: this.work.permanent
+        })
+      buyPromise.then(res => {
+        this.buyState = false
+        if (res.events) {
+          this.$emit('needupdate')
+          this.notice(['log', this.$t('Notice.buy'), 10000])
+        } else if (/reverted by the EVM/.test(res.message)) {
+          this.notice(['error', this.$t('Notice.unknow'), 10000])
+        } else if (/insufficient funds/.test(res.message)) {
+          this.notice(['error', this.$t('Notice.insufficient'), 10000])
+        } else {
+          this.notice(['error', this.$t('Notice.neterror'), 10000])
+        }
+      })
     }
   }
 }
