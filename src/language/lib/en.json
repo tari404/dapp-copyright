@@ -1,10 +1,10 @@
 {
-  "title": "Tracing of Cargoes",
+  "title": "Copyright on Blockchain",
   "goback": "go back",
   "intro": "Introduction",
   "introduction": [
-    "区块链与数字版权保护能够完美地结合，解决盗版横行的现状。在确权环节可实现及时确权；在版权交易环节不仅保护了版 权作品的价值和版权创作人的权益，还使版权价值凭借专业机构的开 发推广、衍生和应用实现了价值流通。",
-    "本应用主要包含三个功能，版权存证、版权授权和购买权限。用户新增版权认证后，可在“我拥有的版权”详情里进行授权，授权后将在“版权商城”里面展示，其他用户可在“版权商城”里购买权限。"
+    "Blockchain technology and digital copyright protection can perfectly combined to solve the current situation of rampant piracy. The copyright can be confirmed in time and the copyright transaction process not only protect the value of the works, the interests of the creator but also make the  copyright to realize it’s value through the development, promotion,derivation and applying process conducted by professional institutions.",
+    "This application mainly contains three functions, copyright storage, copyright authorization and purchase rights. After users add copyright authentication function, they can conduct the  authorization process under the module of “owned copyright”, which will be displayed in the Copyright Mall, and other users can purchase rights in the Copyright Mall."
   ],
   "start": "Start",
   "login": "Log in",
@@ -22,38 +22,63 @@
   "loading": "loading...",
   "processing": "processing...",
   "creating": "creating...",
-  "cargolist": "My cargoes",
-  "cargoquery": "cargoes search",
-  "newcargo": "Create a cargo",
-  "transcargo": "Merchandising ",
+  "yes": "Yes",
+  "no": "No",
+  "confirm": "Confirm",
+  "month": "Month",
+  "permanent": "Permanently",
+  "price": "Price",
+  "name": "Name",
+  "mine": "Mine",
+  "shop": "Copyright Shop",
   "Query": {
-    "title": "Cargo details",
-    "nocargoes": "this cargo does not exist.",
+    "title": "Copyright Details",
     "createtime": "Create time",
-    "creater": "Founder",
-    "holder": "Holder",
-    "transcount": "Transfer times",
-    "input": "Enter the target address",
-    "confirm": "Confirm"
+    "id": "Copyright ID",
+    "owner": "Author",
+    "intro": "Intro",
+    "rule": "Copyright authorization",
+    "buy": "Buy Copyright",
+    "time": "Time",
+    "onsale": "Allow to purchase",
+    "mode": "Authorization mode",
+    "permonth": "Monthly (30 days)",
+    "price": "Price",
+    "notallow": "Authors are temporarily not allowed to purchase the authorization"
   },
-  "Cargoes": {
-    "norecords": "no cargoes",
-    "input": "Enter the cargo's ID",
-    "query": "Check",
-    "inputname": "Enter the cargo's name",
-    "confirm": "Confirm"
+  "Auth": {
+    "title": "My Authorization",
+    "mine": "You are the author of the work",
+    "isbought": "Purchased",
+    "time": "Permission time",
+    "inforce": "In Force",
+    "expired": "Expired"
+  },
+  "Mine": {
+    "mine": "My Copyright",
+    "addnew": "New Copyright Registration",
+    "nowork": "no copyright registration record",
+    "bought": "Purchased Copyright",
+    "nobought": "no purchase record"
+  },
+  "Shop": {
+    "title": "Shop",
+    "nowork": "no copyright record",
+    "prev": "prev",
+    "next": "next",
+    "rule": "Copyright Authorization",
+    "setprice": "Set price",
+    "permonth": "Monthly",
+    "notice": "After the authorization, your copyright will be on sale in the copyright market"
   },
   "Notice": {
-    "cargo": "The cargo: ",
-    "toaccount": "has transferred to account: ",
+    "work": "Copyright: ",
+    "registered": " has been successfully registered",
+    "onshelves": " authorized price has been set",
+    "buy": "Have been purchased",
+    "insufficient": "Insufficient account balance",
     "success": "Successful",
-    "unknow": "Failure to transfer the cargo. Input parameters may have errors or unauthorized",
-    "neterror": "Failure to transfer the cargo. It may be due to the network or other reasons"
-  },
-  "Createnotice": {
-    "success": "The cargo creation successful, name: ",
-    "error": "Failed to create the cargo: ",
-    "unknow": " Please confirm with the administrator whether there are operational privileges",
-    "neterror": " It may be due to the network or other reasons"
+    "unknow": "Failure to register copyright, Input parameters may have errors",
+    "neterror": "Failure to register copyright, It may be due to the network or other reasons"
   }
 }

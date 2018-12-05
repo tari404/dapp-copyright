@@ -2,15 +2,15 @@
   <div class="main-width">
     <div class="cpr-content">
       <h2>{{$t('Query.title')}}</h2>
-      <div v-if="owner === address" class="cpr-button" @click="toggleModel('rule')">创建/更新授权规则</div>
-      <div v-else-if="work && work.onSale" class="cpr-button" @click="toggleModel('buy')">购买授权</div>
+      <div v-if="owner === address" class="cpr-button" @click="toggleModel('rule')">{{$t('Query.rule')}}</div>
+      <div v-else-if="work && work.onSale" class="cpr-button" @click="toggleModel('buy')">{{$t('Query.buy')}}</div>
       <div v-if="loaded === 1" class="cpr-content-notice">{{$t('loading')}}</div>
       <div v-else-if="notExist && loaded" class="cpr-content-notice">{{$t('Query.nocargoes')}}</div>
       <div v-else-if="work && loaded">
         <div class="cpr-work-name">
           <img :src="defaultImg">
           <span>{{work.name}}</span>
-          <!-- <div>{{$t('Query.createtime')}}</div> -->
+          <div>{{$t('Query.createtime')}} {{work.createdAt}}</div>
         </div>
         <div class="cpr-work-detail">
           <p>
@@ -28,18 +28,18 @@
         </div>
         <hr>
         <div v-if="work.onSale" class="cpr-work-price">
-          <p>允许购买授权</p>
+          <p>{{$t('Query.onsale')}}</p>
           <div>
-              <span class="key">授权模式</span>
-              <span class="key">每月 (30天)</span>
-              <span class="key">永久</span>
-              <span>授权价格</span>
+              <span class="key">{{$t('Query.mode')}}</span>
+              <span class="key">{{$t('Query.permonth')}}</span>
+              <span class="key">{{$t('permanent')}}</span>
+              <span>{{$t('Query.price')}}</span>
               <span>{{work.permonth}} wei</span>
               <span>{{work.permanent}} wei</span>
           </div>
         </div>
         <div v-else class="cpr-work-price">
-          <p>作者暂时不允许购买其授权</p>
+          <p>{{$t('Query.notallow')}}</p>
         </div>
       </div>
     </div>
@@ -53,17 +53,17 @@
       </div>
     </div>
     <div v-if="work" class="cpr-content cpr-validity">
-      <h2>我的权益</h2>
-      <div v-if="owner === address">你是该作品的作者</div>
+      <h2>{{$t('Auth.title')}}</h2>
+      <div v-if="owner === address">{{$t('Auth.mine')}}</div>
       <ul v-else>
         <li>
-          <span class="key">是否购买授权</span>
-          <span class="value">{{hasValidity ? '是' : '否'}}</span>
+          <span class="key">{{$t('Auth.isbought')}}</span>
+          <span class="value">{{hasValidity ? $t('yes') : $t('no')}}</span>
         </li>
         <li v-if="hasValidity">
-          <span class="key">授权有效时间</span>
-          <span class="value">{{permanent ? '永久' : validity}}</span>
-          <span :class="{ 'valid': valid }">{{valid ? '生效中' : '已过期'}}</span>
+          <span class="key">{{$t('Auth.time')}}</span>
+          <span class="value">{{permanent ? $t('permanent') : validity}}</span>
+          <span :class="{ 'valid': valid }">{{valid ? $t('Auth.inforce') : $t('Auth.expired')}}</span>
         </li>
       </ul>
     </div>

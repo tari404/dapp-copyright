@@ -3,7 +3,7 @@ import BN from 'bn.js'
 
 import ABI from './ABI.json'
 
-const contractAddress = '0xE8e85bf86Fa949F51244258Bfb1Cc4E356c3C7B9'
+const contractAddress = '0xC296183E59995CeBeEB090cAe53226874c83B735'
 
 const web3 = new Web3('https://api.truescan.net/rpc')
 const contract = new web3.eth.Contract(ABI, contractAddress)
@@ -11,6 +11,7 @@ const contract = new web3.eth.Contract(ABI, contractAddress)
 class Work {
   constructor (id) {
     this.id = id
+    this.createdAt = '...'
     this.owner = '...'
     this.name = '...'
     this.intro = ''
@@ -22,6 +23,9 @@ class Work {
   }
   update () {
     contract.methods.workByID(this.id).call().then(res => {
+      this.createdAt = new Date(Number(res.createdAt) * 1000)
+        .toLocaleString()
+        .replace(/\//g, '-')
       this.owner = res.owner
       this.name = res.item
       this.intro = res.intro

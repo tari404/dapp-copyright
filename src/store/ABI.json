@@ -115,6 +115,9 @@
   }],
   "name": "workByID",
   "outputs": [{
+    "name": "createdAt",
+    "type": "uint256"
+  }, {
     "name": "owner",
     "type": "address"
   }, {

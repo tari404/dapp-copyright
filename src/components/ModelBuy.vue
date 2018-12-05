@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2>购买版权</h2>
+    <h2>{{$t('Query.buy')}}</h2>
     <div class="content select-time">
-      <span class="key">权限时间</span>
+      <span class="key">{{$t('Query.time')}}</span>
       <ul>
         <li>
           <span class="radio" :class="{ 'radio-focus': isMonthly }" @click="toggleMode(true)"></span>
@@ -11,16 +11,16 @@
             <input type="number" @keydown="filterInput($event)" v-model="month">
             <span @click="addOneMonth">+</span>
           </div>
-          <span>月</span>
+          <span>{{$t('month')}}</span>
         </li>
         <li>
           <span class="radio" :class="{ 'radio-focus': !isMonthly }" @click="toggleMode(false)"></span>
-          <span>永久</span>
+          <span>{{$t('permanent')}}</span>
         </li>
       </ul>
     </div>
     <div class="content">
-      <span class="key">价格</span>
+      <span class="key">{{$t('price')}}</span>
       <span>{{price}} wei</span>
     </div>
     <div class="button" :class="{

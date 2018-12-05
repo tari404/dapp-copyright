@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h2>商店</h2>
+    <h2>{{$t('Shop.title')}}</h2>
     <div
       class="cpr-content-notice"
       v-if="worksState === 1">
-      加载中...
+      {{$t('loading')}}
     </div>
     <div
       class="cpr-content-notice"
       v-else-if="worksState === 2 && works.length === 0">
-      没有版权记录
+      {{$t('Shop.nowork')}}
     </div>
     <ul v-else class="cpr-works-list">
       <li v-for="item in works" :key="item.id" @click="queryDetail(item.id)">
@@ -18,9 +18,9 @@
       </li>
     </ul>
     <div class="cpr-page-turn">
-      <span :class="{ 'disable': page === 1 }" @click="turn(-1)">上一页</span>
+      <span :class="{ 'disable': page === 1 }" @click="turn(-1)">{{$t('Shop.prev')}}</span>
       <div>{{page}} / {{totalPage}}</div>
-      <span :class="{ 'disable': page === totalPage }" @click="turn(1)">下一页</span>
+      <span :class="{ 'disable': page === totalPage }" @click="turn(1)">{{$t('Shop.next')}}</span>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
       shopSize: state => state.web3.shopSize
     }),
     totalPage () {
-      return Math.min(Math.ceil(this.shopSize / this.size), 1000)
+      return Math.min(Math.ceil(this.shopSize / this.size), 1000) || 1
     }
   },
   watch: {

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <h2>我的版权</h2>
-    <div class="cpr-button" @click="toggleModel(true)">新加版权认证</div>
+    <h2>{{$t('Mine.mine')}}</h2>
+    <div class="cpr-button" @click="toggleModel(true)">{{$t('Mine.addnew')}}</div>
     <div
       class="cpr-content-notice"
       v-if="rWorksState === 1">
-      加载中...
+      {{$t('loading')}}
     </div>
     <div
       class="cpr-content-notice"
       v-else-if="rWorksState === 2 && registeredWorks.length === 0">
-      没有版权登记记录
+      {{$t('Mine.nowork')}}
     </div>
     <ul v-else class="cpr-works-list">
       <li v-for="item in registeredWorks" :key="item.id" @click="queryDetail(item.id)">
@@ -19,16 +19,16 @@
       </li>
     </ul>
     <br class="cpr-blank">
-    <h2>我购买的权限</h2>
+    <h2>{{$t('Mine.bought')}}</h2>
     <div
       class="cpr-content-notice"
       v-if="bWorksState === 1">
-      加载中...
+      {{$t('loading')}}
     </div>
     <div
       class="cpr-content-notice"
       v-else-if="bWorksState === 2 && boughtWorks.length === 0">
-      没有购买记录
+      {{$t('Mine.nobought')}}
     </div>
     <ul v-else class="cpr-works-list">
       <li v-for="item in boughtWorks" :key="item.id" @click="queryDetail(item.id)">
@@ -43,14 +43,14 @@
           <span/>
         </div>
         <div>
-          <h2>新加版权认证</h2>
+          <h2>{{$t('Mine.addnew')}}</h2>
           <ul class="model-content">
             <li>
-              <span>名称</span>
+              <span>{{$t('name')}}</span>
               <input type="text" v-model="inputName">
             </li>
             <li>
-              <span>介绍</span>
+              <span>{{$t('Query.intro')}}</span>
               <textarea v-model="inputIntro" />
             </li>
           </ul>

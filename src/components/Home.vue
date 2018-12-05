@@ -9,8 +9,8 @@
       <p>{{$t('Account.address')}} {{address}}</p>
     </div>
     <ul class="cpr-home-menu">
-      <li :class="{ 'focus': route === 'mine' }" @click="toggleRoute('mine')">我拥有的版权</li>
-      <li :class="{ 'focus': route === 'shop' }" @click="toggleRoute('shop')">版权商城</li>
+      <li :class="{ 'focus': route === 'mine' }" @click="toggleRoute('mine')">{{$t('mine')}}</li>
+      <li :class="{ 'focus': route === 'shop' }" @click="toggleRoute('shop')">{{$t('shop')}}</li>
     </ul>
     <div class="cpr-content no-right-top-radius">
       <mine @queryDetails="queryDetails" :route="route" v-show="route === 'mine'" />

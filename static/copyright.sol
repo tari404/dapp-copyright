@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 contract Copyright {
   struct Work {
+    uint256 createdAt;
     address owner;
     string item;
     string intro;
@@ -49,6 +50,7 @@ contract Copyright {
     return _boughtWorks[_user];
   }
   function workByID (bytes32 _id) public view returns (
+    uint256 createdAt,
     address owner,
     string memory item,
     string memory intro,
@@ -58,6 +60,7 @@ contract Copyright {
   ) {
     Work storage work = _works[_id];
     Price storage price = _prices[_id];
+    createdAt = work.createdAt;
     owner = work.owner;
     item = work.item;
     intro = work.intro;
@@ -118,6 +121,7 @@ contract Copyright {
     bytes32 workID = keccak256(abi.encodePacked(msg.sender, existing.length));
     existing.push(workID);
     Work memory newWork = Work({
+      createdAt: now,
       owner: msg.sender,
       item: _name,
       intro: _intro

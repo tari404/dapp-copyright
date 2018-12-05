@@ -1,22 +1,22 @@
 <template>
   <div>
-    <h2>版权授权</h2>
+    <h2>{{$t('Shop.rule')}}</h2>
     <!-- <input type="text" v-model="inputTarget">
     <div class="notice" v-if="!inputTarget">{{$t('Query.input')}}</div> -->
     <ul class="content">
-      <li>设置价格</li>
+      <li>{{$t('Shop.setprice')}}</li>
       <li>
-        <span class="key">按月</span>
+        <span class="key">{{$t('Shop.permonth')}}</span>
         <input type="number" @keydown="filterInput($event)" v-model="permonth">
         <span>wei</span>
       </li>
       <li>
-        <span class="key">永久</span>
+        <span class="key">{{$t('permanent')}}</span>
         <input type="number" @keydown="filterInput($event)" v-model="permanent">
         <span>wei</span>
       </li>
     </ul>
-    <p class="notice">版权授权后，您的版权将会在版权商城展示出售</p>
+    <p class="notice">{{$t('Shop.notice')}}</p>
     <div class="button" :class="{
       'button-active': Number(permonth) && Number(permanent) && !state
     }" @click="updateRule">{{state ? $t('processing') : $t('confirm')}}</div>
