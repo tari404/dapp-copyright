@@ -17,7 +17,8 @@
       "Bunny"
     ],
     "current": "Current account",
-    "address": "Address"
+    "address": "Address",
+    "balance": "Balance (in contract)"
   },
   "loading": "loading...",
   "processing": "processing...",

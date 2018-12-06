@@ -17,7 +17,8 @@
       "兔小妹"
     ],
     "current": "当前账户",
-    "address": "当前账户地址"
+    "address": "当前账户地址",
+    "balance": "合约内余额"
   },
   "loading": "加载中...",
   "processing": "处理中...",

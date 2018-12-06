@@ -107,11 +107,19 @@ export default {
         }, 3000)
       })
     },
-    updateUser ({ state }, index) {
+    updateUser ({ state, rootState }, index) {
       state.userIndex = index
+      rootState.userIndex = index
     },
     getWork (_, id) {
       return findOrCreateWorkInfo(id)
+    },
+    async balanceOf ({ state, dispatch }, address) {
+      address = address || defaultUser[state.userIndex].address
+      return contract.methods.balanceOf(address).call().catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
     },
     async updateTotalWorksCount ({ state, dispatch }) {
       return contract.methods.totalWorksCount().call().then(res => {
@@ -179,9 +187,7 @@ export default {
     },
     async getValidity ({ state, dispatch }, { address, id }) {
       address = defaultUser[state.userIndex].address
-      return contract.methods.validityOf(address, id).call().then(res => {
-        return res
-      }).catch(err => {
+      return contract.methods.validityOf(address, id).call().catch(err => {
         dispatch('checkNetwork')
         return err
       })
