@@ -3,7 +3,7 @@ import BN from 'bn.js'
 
 import ABI from './ABI.json'
 
-const contractAddress = '0xC296183E59995CeBeEB090cAe53226874c83B735'
+const contractAddress = '0xfEE176c3f046b3706ce9964b0F58428E3e0Db7D8'
 
 const web3 = new Web3('https://api.truescan.net/rpc')
 const contract = new web3.eth.Contract(ABI, contractAddress)
@@ -114,13 +114,6 @@ export default {
     getWork (_, id) {
       return findOrCreateWorkInfo(id)
     },
-    async balanceOf ({ state, dispatch }, address) {
-      address = address || defaultUser[state.userIndex].address
-      return contract.methods.balanceOf(address).call().catch(err => {
-        dispatch('checkNetwork')
-        return err
-      })
-    },
     async updateTotalWorksCount ({ state, dispatch }) {
       return contract.methods.totalWorksCount().call().then(res => {
         state.worksCount = Number(res)
@@ -219,6 +212,19 @@ export default {
         id,
         permonth,
         permanent
+      ).send({
+        from: address,
+        gasPrice: 1,
+        gas: 3000000
+      }).catch(err => {
+        dispatch('checkNetwork')
+        return err
+      })
+    },
+    async pullOff ({ state, dispatch }, { id }) {
+      const address = defaultUser[state.userIndex].address
+      return contract.methods.pullOff(
+        id
       ).send({
         from: address,
         gasPrice: 1,

@@ -3,7 +3,9 @@
     <div class="cpr-content">
       <h2>{{$t('Query.title')}}</h2>
       <div v-if="owner === address" class="cpr-button" @click="toggleModel('rule')">{{$t('Query.rule')}}</div>
-      <div v-else-if="work && work.onSale" class="cpr-button" @click="toggleModel('buy')">{{$t('Query.buy')}}</div>
+      <div v-else-if="work && work.onSale && !permanent" class="cpr-button" @click="toggleModel('buy')">
+        {{$t('Query.buy')}}
+      </div>
       <div v-if="loaded === 1" class="cpr-content-notice">{{$t('loading')}}</div>
       <div v-else-if="notExist && loaded" class="cpr-content-notice">{{$t('Query.nocargoes')}}</div>
       <div v-else-if="work && loaded">
@@ -43,18 +45,14 @@
         </div>
       </div>
     </div>
-    <div v-if="model === 'rule'" class="cpr-modal">
-      <div class="main">
-        <div class="close" @click="toggleModel(false)">
-          <span/>
-          <span/>
-        </div>
-        <model-rule @needupdate="update" :work="work" />
-      </div>
-    </div>
     <div v-if="work" class="cpr-content cpr-validity">
       <h2>{{$t('Auth.title')}}</h2>
-      <div v-if="owner === address">{{$t('Auth.mine')}}</div>
+      <div v-if="owner === address && work.onSale" class="cpr-button" @click="toggleModel('down')">
+        {{$t('Auth.takedown')}}
+      </div>
+      <ul v-if="owner === address">
+        <li>{{$t('Auth.mine')}}</li>
+      </ul>
       <ul v-else>
         <li>
           <span class="key">{{$t('Auth.isbought')}}</span>
@@ -67,13 +65,15 @@
         </li>
       </ul>
     </div>
-    <div v-if="model === 'buy'" class="cpr-modal">
+    <div v-if="model" class="cpr-modal">
       <div class="main">
         <div class="close" @click="toggleModel(false)">
           <span/>
           <span/>
         </div>
-        <model-buy @needupdate="update" :work="work" />
+        <model-rule v-if="model === 'rule'" @needupdate="update" :work="work" />
+        <model-buy v-else-if="model === 'buy'" @needupdate="update" :work="work" />
+        <model-down v-else-if="model === 'down'" @needupdate="update" :work="work" />
       </div>
     </div>
   </div>
@@ -83,6 +83,7 @@
 import { mapState, mapGetters, mapActions } from 'vuex'
 import ModelBuy from './ModelBuy'
 import ModelRule from './ModelRule'
+import ModelDown from './ModelDown'
 import defaultImg from '@/assets/work.jpg'
 
 const zeroAddress = '0x0000000000000000000000000000000000000000'
@@ -184,7 +185,8 @@ export default {
   },
   components: {
     ModelBuy,
-    ModelRule
+    ModelRule,
+    ModelDown
   }
 }
 </script>
@@ -207,14 +209,16 @@ hr
   align-items top
   color #666
   img
-    width 220px
+    flex 0 1 220px
     height 100px
     object-fit cover
     object-position center top
   span
     margin 10px 20px
     font-size 18px
-    flex 1
+    flex 1 0 auto
+  div
+    margin 10px 0
 .cpr-work-detail
   p
     font-size 18px
@@ -251,8 +255,6 @@ hr
 .cpr-validity
   font-size 18px
   line-height 30px
-  div
-    margin-top 24px
   ul
     margin-top 24px
   li

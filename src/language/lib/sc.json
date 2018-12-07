@@ -1,5 +1,5 @@
 {
-  "title": "区块链版权",
+  "title": "区块链知识产权",
   "goback": "返回",
   "intro": "应用介绍",
   "introduction": [
@@ -53,7 +53,9 @@
     "isbought": "是否购买授权",
     "time": "授权有效时间",
     "inforce": "生效中",
-    "expired": "已过期"
+    "expired": "已过期",
+    "takedown": "下架",
+    "notice": "下架后其他人无法购买，但仍可在商店看到，并且已经购买的授权不会移除"
   },
   "Mine": {
     "mine": "我的版权",
@@ -76,6 +78,7 @@
     "work": "作品：",
     "registered": " 已成功登记",
     "onshelves": " 已设置授权价格",
+    "tookdown": " 已下架",
     "buy": "已购买作品授权",
     "insufficient": "账户余额不足",
     "success": "操作成功",

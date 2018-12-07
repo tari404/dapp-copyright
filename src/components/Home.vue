@@ -5,7 +5,6 @@
       <div>
         <img :src="user.img">
         <span class="name">{{$t(`Account.player[${user.index}]`)}}</span>
-        <span>{{$t('Account.balance')}} {{balance}} wei</span>
       </div>
       <p>
         <span class="key">{{$t('Account.address')}}</span>
@@ -24,7 +23,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import Mine from './Mine'
 import Shop from './Shop'
@@ -33,7 +32,6 @@ export default {
   name: 'Cargoes',
   data () {
     return {
-      balance: '...',
       route: 'mine'
     }
   },
@@ -43,16 +41,7 @@ export default {
       address: 'web3/address'
     })
   },
-  created () {
-    console.log('create')
-    this.balanceOf().then(res => {
-      this.balance = res
-    })
-  },
   methods: {
-    ...mapActions({
-      'balanceOf': 'web3/balanceOf'
-    }),
     toggleRoute (path) {
       this.route = path
     },

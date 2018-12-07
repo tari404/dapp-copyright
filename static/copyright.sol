@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 contract Copyright {
   struct Work {
     uint256 createdAt;
-    address owner;
+    address payable owner;
     string item;
     string intro;
   }
@@ -18,7 +18,6 @@ contract Copyright {
   uint64 constant MAX_TIME = uint64(0) - 1;
 
   address payable public founder;
-  mapping (address => uint256) private _balance;
 
   mapping (address => bytes32[]) private _usersWorks;
   mapping (bytes32 => Work) private _works;
@@ -40,9 +39,6 @@ contract Copyright {
     founder = msg.sender;
   }
 
-  function balanceOf (address _user) public view returns (uint256) {
-    return _balance[_user];
-  }
   function worksOf (address _user) public view returns (bytes32[] memory) {
     return _usersWorks[_user];
   }
@@ -104,15 +100,6 @@ contract Copyright {
     return _validity[_id][_user];
   }
 
-  function deposite () public payable {
-    _balance[msg.sender] += msg.value;
-  }
-  function take (uint256 _value) public {
-    require(_value <= _balance[msg.sender]);
-    _balance[msg.sender] -= _value;
-    msg.sender.transfer(_value);
-  }
-
   function registerWork (
     string memory _name,
     string memory _intro
@@ -161,32 +148,36 @@ contract Copyright {
 
   function buyAuthorizationPerMonth (bytes32 _workID, uint64 _month) public payable {
     Price storage price = _prices[_workID];
+    address payable owner = _works[_workID].owner;
+    require(owner != address(0));
     require(price.onSale);
     uint256 totalSpend = _month * price.permonth;
     assert(totalSpend / _month == price.permonth);
     uint64 time = _month * 30 days;
     assert(time / _month == 30 days);
-    _balance[msg.sender] += msg.value;
-    _authorize(_workID, time, msg.sender, totalSpend);
+    require(totalSpend <= msg.value);
+    uint256 rest = msg.value - totalSpend;
+    owner.transfer(totalSpend);
+    msg.sender.transfer(rest);
+    _authorize(_workID, time, msg.sender);
   }
   function buyAuthorizationPermanent (bytes32 _workID) public payable {
     Price storage price = _prices[_workID];
+    address payable owner = _works[_workID].owner;
+    require(owner != address(0));
     require(price.onSale);
-    _balance[msg.sender] += msg.value;
-    _authorize(_workID, MAX_TIME, msg.sender, price.permanent);
+    require(price.permanent <= msg.value);
+    uint256 rest = msg.value - price.permanent;
+    owner.transfer(price.permanent);
+    msg.sender.transfer(rest);
+    _authorize(_workID, MAX_TIME, msg.sender);
   }
 
   function _authorize (
     bytes32 _workID,
     uint64 _time,
-    address _purchaser,
-    uint256 _pay
+    address _purchaser
   ) private {
-    address owner = _works[_workID].owner;
-    require(owner != address(0));
-    require(_pay <= _balance[_purchaser]);
-    _balance[owner] += _pay;
-    _balance[_purchaser] -= _pay;
     uint64 existing = _validity[_workID][_purchaser];
     if (existing < now) {
       existing = uint64(now);

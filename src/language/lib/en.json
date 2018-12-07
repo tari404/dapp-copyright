@@ -45,7 +45,7 @@
     "mode": "Authorization mode",
     "permonth": "Monthly (30 days)",
     "price": "Price",
-    "notallow": "Authors are temporarily not allowed to purchase the authorization"
+    "notallow": "Authors are temporarily not allowed to purchase the authorization."
   },
   "Auth": {
     "title": "My Authorization",
@@ -53,7 +53,9 @@
     "isbought": "Purchased",
     "time": "Permission time",
     "inforce": "In Force",
-    "expired": "Expired"
+    "expired": "Expired",
+    "takedown": "Take Down",
+    "notice": "Others can't buy it after it's off the shelf, but it can still be seen in the store, and the license that has been purchased will not be removed."
   },
   "Mine": {
     "mine": "My Copyright",
@@ -76,6 +78,7 @@
     "work": "Copyright: ",
     "registered": " has been successfully registered",
     "onshelves": " authorized price has been set",
+    "tookdown": " has been took down",
     "buy": "Have been purchased",
     "insufficient": "Insufficient account balance",
     "success": "Successful",

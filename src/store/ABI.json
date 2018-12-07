@@ -63,17 +63,6 @@
   "stateMutability": "view",
   "type": "function"
 }, {
-  "constant": false,
-  "inputs": [{
-    "name": "_value",
-    "type": "uint256"
-  }],
-  "name": "take",
-  "outputs": [],
-  "payable": false,
-  "stateMutability": "nonpayable",
-  "type": "function"
-}, {
   "constant": true,
   "inputs": [{
     "name": "_user",
@@ -177,20 +166,6 @@
   "stateMutability": "view",
   "type": "function"
 }, {
-  "constant": true,
-  "inputs": [{
-    "name": "_user",
-    "type": "address"
-  }],
-  "name": "balanceOf",
-  "outputs": [{
-    "name": "",
-    "type": "uint256"
-  }],
-  "payable": false,
-  "stateMutability": "view",
-  "type": "function"
-}, {
   "constant": false,
   "inputs": [{
     "name": "_name",
@@ -236,14 +211,6 @@
   "outputs": [],
   "payable": false,
   "stateMutability": "nonpayable",
-  "type": "function"
-}, {
-  "constant": false,
-  "inputs": [],
-  "name": "deposite",
-  "outputs": [],
-  "payable": true,
-  "stateMutability": "payable",
   "type": "function"
 }, {
   "constant": false,
