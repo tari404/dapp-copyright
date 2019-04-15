@@ -1,4 +1,4 @@
-# 商品溯源 Cargoes Traceability DApp Demo
+# 知识产权商城 Intellectual Property Mall DApp Demo
 
 > developed by [Felix](https://github.com/tari404)
 
@@ -11,7 +11,3 @@
 npm install
 npm run build
 ```
-
-## 文档 Document
-
-[中文文档](./docs/index.md)
